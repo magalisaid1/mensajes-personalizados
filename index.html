@@ -99,7 +99,7 @@
       }));
       const themeToggle = document.getElementById('theme-toggle');
       themeToggle.addEventListener('click', () => {
-        const isLuna = document.body.classList.toggle('luna');
+        const isLuna = document.body.classList.toggle('');
         themeToggle.setAttribute('aria-pressed', String(isLuna));
         themeToggle.textContent = isLuna ? '☀ Claro' : '☾ Luna';
       });
