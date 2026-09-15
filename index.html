@@ -22,7 +22,7 @@
       .nav-links a { color:var(--ink); text-decoration:none; }
       .nav-links .nav-cta { background:#e3f5cf; color:#285337; box-shadow:inset 0 0 0 1px #cde8b5; }
       .nav-links .nav-cta:hover { background:var(--lime); color:var(--ink); }
-      .theme-toggle{border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:transparent;color:var(--muted);font:500 10px "DM Mono",monospace;cursor:pointer}.theme-toggle:hover{border-color:#8abb75;color:var(--ink)}body.luna .feature,body.luna .module-panel,body.luna .upload-panel{background:#183025;border-color:#315342}body.luna .drop-zone{background:#13261d;border-color:#6f9d5c}body.luna .tip,body.luna .template-preview,body.luna .send-preview{background:#13261d}body.luna .template-name,body.luna .template-text,body.luna .stat{background:#1b3327;border-color:#355846;color:#d9e9dc}body.luna .format-list span{background:#183025;border-color:#355846;color:#b8d5bd}body.luna .proof b{color:#d0e4d1}body.luna .cta-box{color:#12261c}
+      .theme-toggle{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--line);border-radius:50%;padding:0;background:transparent;color:var(--muted);font-size:16px;cursor:pointer}.theme-toggle:hover{border-color:#8abb75;color:var(--ink)}body.luna .feature,body.luna .module-panel,body.luna .upload-panel{background:#183025;border-color:#315342}body.luna .drop-zone{background:#13261d;border-color:#6f9d5c}body.luna .tip,body.luna .template-preview,body.luna .send-preview{background:#13261d}body.luna .template-name,body.luna .template-text,body.luna .stat{background:#1b3327;border-color:#355846;color:#d9e9dc}body.luna .format-list span{background:#183025;border-color:#355846;color:#b8d5bd}body.luna .proof b{color:#d0e4d1}body.luna .cta-box{color:#12261c}
       .button { display:inline-flex; align-items:center; justify-content:center; border:none; border-radius:999px; padding:14px 21px; background:var(--ink); color:#fff; text-decoration:none; font-size:13px; font-weight:800; cursor:pointer; transition:.2s transform,.2s background; }
       .button:hover { transform:translateY(-2px); background:#244837; }
       .button.lime { background:var(--lime); color:var(--ink); }
@@ -61,7 +61,7 @@
     <div class="wrap">
       <nav>
         <div class="brand"><span class="brand-mark">↗</span> mensajes personalizados</div>
-        <div class="nav-links"><a href="#beneficios">La plataforma</a><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">☾ Luna</button><a class="button nav-cta" href="https://wa-app-production-1e5d.up.railway.app/enviar">Entrar a la plataforma →</a></div>
+        <div class="nav-links"><a href="#beneficios">La plataforma</a><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro" aria-pressed="false">☾</button><a class="button nav-cta" href="https://wa-app-production-1e5d.up.railway.app/enviar">Entrar a la plataforma →</a></div>
       </nav>
       <main>
         <section class="hero">
@@ -99,9 +99,11 @@
       }));
       const themeToggle = document.getElementById('theme-toggle');
       themeToggle.addEventListener('click', () => {
-        const isLuna = document.body.classList.toggle('');
+        const isLuna = document.body.classList.toggle('luna');
         themeToggle.setAttribute('aria-pressed', String(isLuna));
-        themeToggle.textContent = isLuna ? '☀ Claro' : '☾ Luna';
+        themeToggle.textContent = isLuna ? '☀' : '☾';
+        themeToggle.setAttribute('aria-label', isLuna ? 'Activar modo claro' : 'Activar modo oscuro');
+        themeToggle.title = isLuna ? 'Activar modo claro' : 'Activar modo oscuro';
       });
     </script>
   </body>
