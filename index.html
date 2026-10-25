@@ -3,12 +3,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Envía mensajes personalizados por WhatsApp, de forma simple y humana.">
 <title>Mensajes que sí se sienten personales</title>
+<meta name="theme-color" content="#f7f8f3">
+<link rel="preload" as="image" href="./logo-wacast.png">
+<script>
+// La animación de entrada se muestra una sola vez por sesión
+try{if(!sessionStorage.getItem('wacast-intro')){document.documentElement.classList.add('intro');sessionStorage.setItem('wacast-intro','1')}}catch(e){document.documentElement.classList.add('intro')}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;color-scheme:light}
+html:has(body.luna){color-scheme:dark}
+a,button,summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid #4b855b;outline-offset:3px;border-radius:8px}
+.button:focus-visible,.nav-cta:focus-visible,.theme-toggle:focus-visible{border-radius:999px}
+.feature:focus-visible{border-radius:18px}
+body.luna :focus-visible{outline-color:var(--lime)}
+.skip-link{position:absolute;left:16px;top:-48px;z-index:300;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--cream);font-weight:700;font-size:13px;text-decoration:none}
+.skip-link:focus{top:12px}
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
+#beneficios{scroll-margin-top:72px}
 
 :root{
   --ink:#153126;--muted:#5e7468;--lime:#c8fa72;--lime-dark:#a9e750;
@@ -18,6 +35,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   --sh-sm:0 4px 12px rgba(27,57,39,.06);
   --sh-md:0 18px 35px rgba(27,57,39,.10);
   --sh-lg:0 28px 60px rgba(27,57,39,.15);
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
 }
 body.luna{
   --ink:#eef7ef;--muted:#b3c6b8;--cream:#0f1d16;--surface:#182c21;
@@ -41,40 +59,46 @@ nav{height:72px;display:flex;align-items:center;justify-content:space-between;ga
 .brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--ink);color:var(--lime);font-size:19px;flex-shrink:0}
 .brand-logo{
   display: block;
-  width: 180px;
-  height: auto;
-  max-height: 52px;
+  width: auto;
+  height: 48px;
+  border-radius: 8px;
   object-fit: contain;
   flex-shrink: 0;
 }
 .nav-right{display:flex;align-items:center;gap:6px}
 .nav-links{display:flex;align-items:center;gap:2px}
-.nav-links a{color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;padding:8px 12px;border-radius:999px;transition:background .15s}
-.nav-links a:hover{background:var(--soft-green)}
-.nav-cta{background:#e3f5cf;color:#285337;box-shadow:inset 0 0 0 1px #cde8b5;font-weight:800;padding:10px 16px;border-radius:999px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;min-height:40px;transition:background .15s,color .15s;white-space:nowrap}
-.nav-cta:hover{background:var(--lime);color:var(--ink)}
-.theme-toggle{display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;padding:0;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;flex-shrink:0;transition:border-color .15s,color .15s}
-.theme-toggle:hover{border-color:#8abb75;color:var(--ink)}
+.nav-links a{color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;padding:11px 14px;border-radius:999px;transition:background-color 150ms ease}
+@media(hover:hover) and (pointer:fine){.nav-links a:hover{background:var(--soft-green)}}
+.nav-cta{background:#e3f5cf;color:#285337;box-shadow:inset 0 0 0 1px #cde8b5;font-weight:800;padding:10px 16px;border-radius:999px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;min-height:40px;transition:background-color 150ms ease,color 150ms ease,transform 160ms var(--ease-out);white-space:nowrap}
+.nav-cta:active{transform:scale(.97)}
+@media(hover:hover) and (pointer:fine){.nav-cta:hover{background:var(--lime);color:var(--ink)}}
+.theme-toggle{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line);border-radius:50%;padding:0;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;flex-shrink:0;transition:border-color 150ms ease,color 150ms ease,transform 160ms var(--ease-out)}
+.theme-toggle:active{transform:scale(.94)}
+@media(hover:hover) and (pointer:fine){.theme-toggle:hover{border-color:#8abb75;color:var(--ink)}}
 
 /* HAMBURGER */
 .hamburger-menu{display:none;position:relative}
 .hamburger-btn{display:flex;flex-direction:column;gap:5px;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;cursor:pointer;list-style:none;padding:0;background:transparent}
 .hamburger-btn::-webkit-details-marker{display:none}
-.hamburger-btn span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
+.hamburger-btn span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:transform 200ms var(--ease-out),opacity 200ms var(--ease-out)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .mobile-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:var(--sh-md);display:flex;flex-direction:column;gap:4px;z-index:100}
-.mobile-dropdown a{display:block;padding:11px 14px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;border-radius:10px;transition:background .15s}
+.mobile-dropdown a{display:block;padding:11px 14px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;border-radius:8px;transition:background .15s}
 .mobile-dropdown a:hover{background:var(--soft-green)}
-.mob-cta{margin-top:4px;background:var(--ink);color:#fff !important;text-align:center;font-weight:700;border-radius:10px}
+.mob-cta{margin-top:4px;background:var(--ink);color:#fff !important;text-align:center;font-weight:700;border-radius:8px}
 .mob-cta:hover{background:#244837 !important}
 
 /* BUTTONS */
-.button{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:999px;padding:14px 22px;background:var(--ink);color:#fff;text-decoration:none;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;min-height:46px;transition:transform .2s,background .2s,box-shadow .2s;white-space:nowrap}
-.button:hover{transform:translateY(-2px);background:#244837;box-shadow:0 8px 20px rgba(22,62,45,.2)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:999px;padding:14px 22px;background:var(--ink);color:#fff;text-decoration:none;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;min-height:46px;transition:transform 160ms var(--ease-out),background-color 200ms ease,box-shadow 200ms ease;white-space:nowrap}
 .button.lime{background:var(--lime);color:var(--ink)}
-.button.lime:hover{background:var(--lime-dark)}
+.button:active{transform:scale(.97)}
+@media(hover:hover) and (pointer:fine){
+  .button:hover{transform:translateY(-2px);background:#244837;box-shadow:0 8px 20px rgba(22,62,45,.2)}
+  .button.lime:hover{background:var(--lime-dark)}
+  .button:active{transform:translateY(-2px) scale(.97)}
+}
 
 /* HERO */
 .hero{padding:clamp(52px,8vw,96px) 0 clamp(64px,10vw,108px);display:grid;grid-template-columns:1.04fr .96fr;align-items:center;gap:clamp(36px,5vw,72px)}
@@ -89,7 +113,7 @@ h1 em::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:7
 .microcopy span{color:#55a047;margin-right:4px}
 
 /* DEMO CARD */
-.demo-card{overflow:hidden;border:1px solid #cdddcf;border-radius:24px;background:var(--surface);box-shadow:var(--sh-lg);transform:rotate(2.5deg);max-width:420px;width:100%}
+.demo-card{user-select:none;overflow:hidden;border:1px solid #cdddcf;border-radius:24px;background:var(--surface);box-shadow:var(--sh-lg);transform:rotate(2.5deg);max-width:420px;width:100%}
 .card-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #edf0eb}
 .dots{display:flex;gap:5px}
 .dots i{display:block;width:8px;height:8px;border-radius:50%}
@@ -101,7 +125,7 @@ h1 em::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:7
 .campaign{padding:16px;background:#fbfcf8}
 .campaign-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px}
 .campaign-title strong{font-size:13px}
-.campaign-title span{padding:5px 9px;border-radius:6px;background:#eaf8d7;color:#427b36;font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.campaign-title span{font-variant-numeric:tabular-nums;padding:5px 9px;border-radius:6px;background:#eaf8d7;color:#427b36;font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
 .message{padding:13px 14px;border-radius:12px 12px 3px 12px;background:#ddf9b2;margin:10px 0 10px 32px;color:#1b3926;font-size:12px;line-height:1.55}
 .message b,.amount{color:#197a38;font-weight:800}
 .time{display:block;margin-top:4px;color:#60906a;text-align:right;font-size:9px}
@@ -129,8 +153,12 @@ section{padding:clamp(64px,10vw,112px) 0}
 #beneficios{background:linear-gradient(180deg,var(--cream) 0%,#f0f6ec 100%)}
 body.luna #beneficios{background:linear-gradient(180deg,#0f1d16 0%,#14271d 100%)}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.feature{padding:24px;min-height:200px;border:1px solid var(--line);border-radius:18px;background:var(--surface);text-align:left;font:inherit;color:var(--ink);cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
-.feature:hover{transform:translateY(-3px);border-color:#8fbd79;box-shadow:var(--sh-md)}
+.feature{padding:24px;min-height:200px;border:1px solid var(--line);border-radius:18px;background:var(--surface);text-align:left;font:inherit;color:var(--ink);cursor:pointer;transition:transform 200ms var(--ease-out),border-color 200ms ease,box-shadow 200ms ease}
+.feature:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){
+  .feature:hover{transform:translateY(-3px);border-color:#8fbd79;box-shadow:var(--sh-md)}
+  .feature:active{transform:translateY(-3px) scale(.98)}
+}
 .feature.active{border-color:#8fbd79;box-shadow:inset 0 3px 0 var(--lime),var(--sh-md);background:#f6ffed}
 body.luna .feature.active{background:#1c3829}
 .icon{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#e7f6cf;color:#367638;font-size:20px}
@@ -140,24 +168,24 @@ body.luna .feature.active{background:#1c3829}
 
 /* MODULE PANELS */
 .module-panel{display:none;margin-top:20px;padding:clamp(22px,4vw,48px);border:1px solid #cfe1cc;border-radius:24px;background:var(--soft-mint);box-shadow:var(--sh-md)}
-.module-panel.active{display:block;animation:panel-in .28s ease both}
+.module-panel.active{display:block;animation:panel-in 240ms var(--ease-out) both}
 @keyframes panel-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .module-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(28px,5vw,54px);align-items:start}
 .format-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .format-list span{border:1px solid #d8e4cf;border-radius:7px;background:var(--surface);padding:7px 10px;color:#587164;font-family:"DM Mono",monospace;font-size:11px}
 
 /* UPLOAD */
-.upload-panel{padding:18px;border:1px solid #dce6d8;border-radius:20px;background:var(--surface);box-shadow:var(--sh-sm)}
-.drop-zone{min-height:155px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1.5px dashed #9bc889;border-radius:12px;background:#f8fcf3;text-align:center;padding:20px;gap:8px}
+.upload-panel{padding:12px;border:1px solid #dce6d8;border-radius:22px;background:var(--surface);box-shadow:var(--sh-sm)}
+.drop-zone{min-height:155px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1.5px dashed #9bc889;border-radius:10px;background:#f8fcf3;text-align:center;padding:20px;gap:8px}
 .upload-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:var(--lime);font-size:20px}
 .drop-zone strong{font-size:13px}
 .drop-zone small{color:#77887d;font-size:11px}
-.tips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .tip{padding:11px 12px;border-radius:10px;background:#f5f7f3;color:#54675b;font-size:11px;line-height:1.5}
 .tip b{display:block;margin-bottom:3px;color:#244533;font-size:11px}
 
 /* TEMPLATE & SEND PREVIEW */
-.template-preview,.send-preview{padding:18px;border:1px solid #cfe1cc;border-radius:18px;background:#f9fcf6;box-shadow:var(--sh-sm)}
+.template-preview,.send-preview{padding:18px;border:1px solid #cfe1cc;border-radius:22px;background:#f9fcf6;box-shadow:var(--sh-sm)}
 .preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:12px;gap:8px}
 .preview-head span{border-radius:6px;background:#e0f5ca;padding:5px 8px;color:#356e33;font-size:10px;font-weight:800;white-space:nowrap}
 .template-name{padding:10px 12px;border:1px solid #d2e3ce;border-radius:9px;background:var(--surface);color:#244533;font-size:12px}
@@ -166,7 +194,7 @@ body.luna .feature.active{background:#1c3829}
 .mini-button{display:inline-flex;margin-top:12px;padding:9px 14px;border-radius:8px;background:var(--forest);color:white;font-size:11px;font-weight:800}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
 .stat{padding:13px 8px;border-radius:10px;background:var(--surface);text-align:center;border:1px solid var(--line)}
-.stat b{display:block;font-size:20px;margin-bottom:2px}
+.stat b{display:block;font-size:20px;margin-bottom:2px;font-variant-numeric:tabular-nums}
 .stat small{color:#75857b;font-size:9px}
 .recipient-row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #dce8d9;color:#4d6555;font-size:11px}
 .recipient-row b{color:#36823d}
@@ -174,7 +202,9 @@ body.luna .feature.active{background:#1c3829}
 /* FOOTER */
 footer{border-top:1px solid var(--line);background:var(--soft-green);color:#667d6d;font-size:12px}
 .footer-inner{padding:28px 0 36px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.footer-contact{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.footer-contact{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+.footer-person{display:flex;flex-direction:column;gap:2px}
+.footer-person strong{color:var(--ink);font-size:13px}
 .footer-contact a{color:#3d754d;text-decoration:none;font-weight:600;transition:color .15s}
 .footer-contact a:hover{color:#245f34;text-decoration:underline}
 
@@ -228,6 +258,7 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   nav{height:64px}
   .brand{font-size:16px}
   .brand-mark{width:30px;height:30px;border-radius:9px;font-size:16px}
+  .brand-logo{height:40px}
   .nav-links{display:none}
   .hamburger-menu{display:block}
 
@@ -257,7 +288,7 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   .stat b{font-size:18px}
 
   .footer-inner{flex-direction:column;align-items:flex-start;gap:12px;padding-bottom:28px}
-  .footer-contact{flex-direction:column;align-items:flex-start;gap:6px}
+  .footer-contact{flex-direction:column;align-items:flex-start;gap:14px}
 }
 
 /* === SMALL MOBILE ≤ 400px === */
@@ -273,17 +304,56 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   .nav-cta{padding:9px 12px;font-size:12px}
   .eyebrow{font-size:10px;padding:6px 10px}
 }
+
+/* === MOTION === */
+.pulse{position:relative}
+.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:#58b947;animation:ping 2.4s var(--ease-out) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(2.6);opacity:0}}
+
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes card-in{from{opacity:0;transform:rotate(2.5deg) translateY(16px) scale(.96)}to{opacity:1;transform:rotate(2.5deg)}}
+@keyframes card-in-flat{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes bubble-in{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes underline{from{transform:skewX(-12deg) scaleX(0)}to{transform:skewX(-12deg) scaleX(1)}}
+
+.intro .hero .eyebrow,.intro .hero h1,.intro .hero .lead,.intro .hero-actions{animation:rise 600ms var(--ease-out) both}
+.intro .hero h1{animation-delay:80ms}
+.intro .hero .lead{animation-delay:160ms}
+.intro .hero-actions{animation-delay:240ms}
+.intro h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650ms both}
+.intro .demo-card{animation:card-in 700ms var(--ease-out) 200ms both}
+.intro .demo-card .contact,.demo-card .message{transform-origin:bottom right;animation:bubble-in 400ms var(--ease-out) both}
+.intro .campaign > :nth-child(2){animation-delay:600ms}
+.intro .campaign > :nth-child(3){animation-delay:750ms}
+.intro .campaign > :nth-child(4){animation-delay:1100ms}
+.intro .campaign > :nth-child(5){animation-delay:1250ms}
+
+
+@media(max-width:900px){
+  .intro .demo-card{animation-name:card-in-flat}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pulse::after{animation:none;display:none}
+  .hero .eyebrow,.hero h1,.hero .lead,.hero-actions{animation:none}
+  h1 em::after{animation:none}
+  .demo-card,.demo-card .contact,.demo-card .message{animation:none}
+  .module-panel.active{animation:none}
+  .button,.feature,.hamburger-btn span{transition:none}
+}
 </style>
 </head>
 <body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
 
 <!-- NAVIGATION -->
 <header class="nav-wrapper">
   <div class="wrap">
     <nav>
-      <a class="brand" href="#">
-         <img class="brand-logo" src="./logo-wacast.png.png" alt="WACAST">
-             WACAST
+      <a class="brand" href="#" aria-label="WACAST, ir al inicio">
+         <img class="brand-logo" src="./logo-wacast.png" alt="WACAST" width="180" height="90" fetchpriority="high">
       </a>
       <div class="nav-right">
         <div class="nav-links">
@@ -306,22 +376,22 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
 </header>
 
 <!-- MAIN -->
-<main>
+<main id="contenido">
 
   <!-- HERO -->
   <div class="wrap">
     <section class="hero">
       <div>
-        <div class="eyebrow"><span class="pulse"></span> Mensajes personalizados por WhatsApp</div>
+        <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> Mensajes personalizados por WhatsApp</div>
         <h1>Llegá a todos. <em>Hablales a cada uno.</em></h1>
         <p class="lead">Cobrá, invitá, encuestá o captá nuevos clientes con mensajes de WhatsApp que se adaptan a cada persona: nombre, fecha, producto, evento o cualquier dato de tus contactos.</p>
         <div class="hero-actions">
           <a class="button lime" href="https://wa-app-production-1e5d.up.railway.app/enviar">Empezar a enviar →</a>
-          <span class="microcopy"><span>●</span> Conectá tu WhatsApp Business en minutos</span>
+          <span class="microcopy"><span aria-hidden="true">●</span> Conectá tu WhatsApp Business en minutos</span>
         </div>
       </div>
       <div>
-        <div class="demo-card" aria-label="Vista previa de mensajes personalizados">
+        <div class="demo-card" role="img" aria-label="Ejemplo: el mismo mensaje de cobranza personalizado con el nombre y el monto de Lucía y de Juan">
           <div class="card-top">
             <div class="dots"><i></i><i></i><i></i></div>
             <div class="status"><b>●</b> envío en curso</div>
@@ -370,19 +440,19 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
 
       <div class="features" role="tablist" aria-label="Secciones de la plataforma">
         <button class="feature active" type="button" role="tab" aria-selected="true" aria-controls="panel-contactos" data-panel="contactos" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
-          <div class="icon">♙</div>
+          <div class="icon" aria-hidden="true">♙</div>
           <h3>Contactos</h3>
           <p>Conectá tu WhatsApp Business o importá tu lista con los datos de cada persona.</p>
           <span class="open-label">Ver contactos →</span>
         </button>
         <button class="feature" type="button" role="tab" aria-selected="false" aria-controls="panel-plantillas" data-panel="plantillas" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
-          <div class="icon">✦</div>
+          <div class="icon" aria-hidden="true">✦</div>
           <h3>Plantillas</h3>
           <p>Creá mensajes reutilizables para cobranzas, invitaciones, encuestas o captación.</p>
           <span class="open-label">Ver plantillas →</span>
         </button>
         <button class="feature" type="button" role="tab" aria-selected="false" aria-controls="panel-envios" data-panel="envios" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
-          <div class="icon">✓</div>
+          <div class="icon" aria-hidden="true">✓</div>
           <h3>Envíos</h3>
           <p>Elegí destinatarios, mandá con un botón y revisá los resultados al instante.</p>
           <span class="open-label">Ver envíos →</span>
@@ -402,7 +472,7 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
           </div>
           <div class="upload-panel">
             <div class="drop-zone">
-              <div class="upload-icon">↑</div>
+              <div class="upload-icon" aria-hidden="true">↑</div>
               <strong>Arrastrá y soltá tu archivo</strong>
               <small>Formatos: .csv, .xlsx, .xls, .vcf</small>
             </div>
@@ -493,4 +563,21 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
 </footer>
 
 
+<script>
+(function(){
+  // Contador del demo: sube hasta 42 mientras aparecen los mensajes
+  var counter=document.querySelector('.campaign-title span');
+  if(!counter||!document.documentElement.classList.contains('intro')||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var from=30,to=42,dur=1100,start=null;
+  counter.textContent=from+' / 120 enviados';
+  setTimeout(function(){
+    requestAnimationFrame(function step(t){
+      if(!start)start=t;
+      var p=Math.min((t-start)/dur,1),eased=1-Math.pow(1-p,4);
+      counter.textContent=Math.round(from+(to-from)*eased)+' / 120 enviados';
+      if(p<1)requestAnimationFrame(step);
+    });
+  },600);
+})();
+</script>
 </body></html>
