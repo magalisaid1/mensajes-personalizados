@@ -3,12 +3,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Envía mensajes personalizados por WhatsApp, de forma simple y humana.">
 <title>Mensajes que sí se sienten personales</title>
+<meta name="theme-color" content="#f7f8f3">
+<link rel="preload" as="image" href="./logo-wacast.png">
+<script>
+// La animación de entrada se muestra una sola vez por sesión
+try{if(!sessionStorage.getItem('wacast-intro')){document.documentElement.classList.add('intro');sessionStorage.setItem('wacast-intro','1')}}catch(e){document.documentElement.classList.add('intro')}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;color-scheme:light}
+html:has(body.luna){color-scheme:dark}
+a,button,summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid #4b855b;outline-offset:3px;border-radius:8px}
+.button:focus-visible,.nav-cta:focus-visible,.theme-toggle:focus-visible{border-radius:999px}
+.feature:focus-visible{border-radius:18px}
+body.luna :focus-visible{outline-color:var(--lime)}
+.skip-link{position:absolute;left:16px;top:-48px;z-index:300;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--cream);font-weight:700;font-size:13px;text-decoration:none}
+.skip-link:focus{top:12px}
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
+#beneficios{scroll-margin-top:72px}
 
 :root{
   --ink:#153126;--muted:#5e7468;--lime:#c8fa72;--lime-dark:#a9e750;
@@ -42,20 +59,22 @@ nav{height:72px;display:flex;align-items:center;justify-content:space-between;ga
 .brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--ink);color:var(--lime);font-size:19px;flex-shrink:0}
 .brand-logo{
   display: block;
-  width: 180px;
-  height: auto;
-  max-height: 52px;
+  width: auto;
+  height: 48px;
+  border-radius: 8px;
   object-fit: contain;
   flex-shrink: 0;
 }
 .nav-right{display:flex;align-items:center;gap:6px}
 .nav-links{display:flex;align-items:center;gap:2px}
-.nav-links a{color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;padding:8px 12px;border-radius:999px;transition:background .15s}
-.nav-links a:hover{background:var(--soft-green)}
-.nav-cta{background:#e3f5cf;color:#285337;box-shadow:inset 0 0 0 1px #cde8b5;font-weight:800;padding:10px 16px;border-radius:999px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;min-height:40px;transition:background .15s,color .15s;white-space:nowrap}
-.nav-cta:hover{background:var(--lime);color:var(--ink)}
-.theme-toggle{display:grid;place-items:center;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;padding:0;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;flex-shrink:0;transition:border-color .15s,color .15s}
-.theme-toggle:hover{border-color:#8abb75;color:var(--ink)}
+.nav-links a{color:var(--ink);text-decoration:none;font-size:13px;font-weight:600;padding:11px 14px;border-radius:999px;transition:background-color 150ms ease}
+@media(hover:hover) and (pointer:fine){.nav-links a:hover{background:var(--soft-green)}}
+.nav-cta{background:#e3f5cf;color:#285337;box-shadow:inset 0 0 0 1px #cde8b5;font-weight:800;padding:10px 16px;border-radius:999px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;min-height:40px;transition:background-color 150ms ease,color 150ms ease,transform 160ms var(--ease-out);white-space:nowrap}
+.nav-cta:active{transform:scale(.97)}
+@media(hover:hover) and (pointer:fine){.nav-cta:hover{background:var(--lime);color:var(--ink)}}
+.theme-toggle{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line);border-radius:50%;padding:0;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;flex-shrink:0;transition:border-color 150ms ease,color 150ms ease,transform 160ms var(--ease-out)}
+.theme-toggle:active{transform:scale(.94)}
+@media(hover:hover) and (pointer:fine){.theme-toggle:hover{border-color:#8abb75;color:var(--ink)}}
 
 /* HAMBURGER */
 .hamburger-menu{display:none;position:relative}
@@ -66,9 +85,9 @@ nav{height:72px;display:flex;align-items:center;justify-content:space-between;ga
 .hamburger-menu[open] .hamburger-btn span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .mobile-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:230px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:var(--sh-md);display:flex;flex-direction:column;gap:4px;z-index:100}
-.mobile-dropdown a{display:block;padding:11px 14px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;border-radius:10px;transition:background .15s}
+.mobile-dropdown a{display:block;padding:11px 14px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;border-radius:8px;transition:background .15s}
 .mobile-dropdown a:hover{background:var(--soft-green)}
-.mob-cta{margin-top:4px;background:var(--ink);color:#fff !important;text-align:center;font-weight:700;border-radius:10px}
+.mob-cta{margin-top:4px;background:var(--ink);color:#fff !important;text-align:center;font-weight:700;border-radius:8px}
 .mob-cta:hover{background:#244837 !important}
 
 /* BUTTONS */
@@ -94,7 +113,7 @@ h1 em::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:7
 .microcopy span{color:#55a047;margin-right:4px}
 
 /* DEMO CARD */
-.demo-card{overflow:hidden;border:1px solid #cdddcf;border-radius:24px;background:var(--surface);box-shadow:var(--sh-lg);transform:rotate(2.5deg);max-width:420px;width:100%}
+.demo-card{user-select:none;overflow:hidden;border:1px solid #cdddcf;border-radius:24px;background:var(--surface);box-shadow:var(--sh-lg);transform:rotate(2.5deg);max-width:420px;width:100%}
 .card-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #edf0eb}
 .dots{display:flex;gap:5px}
 .dots i{display:block;width:8px;height:8px;border-radius:50%}
@@ -156,17 +175,17 @@ body.luna .feature.active{background:#1c3829}
 .format-list span{border:1px solid #d8e4cf;border-radius:7px;background:var(--surface);padding:7px 10px;color:#587164;font-family:"DM Mono",monospace;font-size:11px}
 
 /* UPLOAD */
-.upload-panel{padding:18px;border:1px solid #dce6d8;border-radius:20px;background:var(--surface);box-shadow:var(--sh-sm)}
-.drop-zone{min-height:155px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1.5px dashed #9bc889;border-radius:12px;background:#f8fcf3;text-align:center;padding:20px;gap:8px}
+.upload-panel{padding:12px;border:1px solid #dce6d8;border-radius:22px;background:var(--surface);box-shadow:var(--sh-sm)}
+.drop-zone{min-height:155px;display:flex;flex-direction:column;justify-content:center;align-items:center;border:1.5px dashed #9bc889;border-radius:10px;background:#f8fcf3;text-align:center;padding:20px;gap:8px}
 .upload-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:var(--lime);font-size:20px}
 .drop-zone strong{font-size:13px}
 .drop-zone small{color:#77887d;font-size:11px}
-.tips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .tip{padding:11px 12px;border-radius:10px;background:#f5f7f3;color:#54675b;font-size:11px;line-height:1.5}
 .tip b{display:block;margin-bottom:3px;color:#244533;font-size:11px}
 
 /* TEMPLATE & SEND PREVIEW */
-.template-preview,.send-preview{padding:18px;border:1px solid #cfe1cc;border-radius:18px;background:#f9fcf6;box-shadow:var(--sh-sm)}
+.template-preview,.send-preview{padding:18px;border:1px solid #cfe1cc;border-radius:22px;background:#f9fcf6;box-shadow:var(--sh-sm)}
 .preview-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:12px;gap:8px}
 .preview-head span{border-radius:6px;background:#e0f5ca;padding:5px 8px;color:#356e33;font-size:10px;font-weight:800;white-space:nowrap}
 .template-name{padding:10px 12px;border:1px solid #d2e3ce;border-radius:9px;background:var(--surface);color:#244533;font-size:12px}
@@ -175,7 +194,7 @@ body.luna .feature.active{background:#1c3829}
 .mini-button{display:inline-flex;margin-top:12px;padding:9px 14px;border-radius:8px;background:var(--forest);color:white;font-size:11px;font-weight:800}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
 .stat{padding:13px 8px;border-radius:10px;background:var(--surface);text-align:center;border:1px solid var(--line)}
-.stat b{display:block;font-size:20px;margin-bottom:2px}
+.stat b{display:block;font-size:20px;margin-bottom:2px;font-variant-numeric:tabular-nums}
 .stat small{color:#75857b;font-size:9px}
 .recipient-row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid #dce8d9;color:#4d6555;font-size:11px}
 .recipient-row b{color:#36823d}
@@ -183,7 +202,9 @@ body.luna .feature.active{background:#1c3829}
 /* FOOTER */
 footer{border-top:1px solid var(--line);background:var(--soft-green);color:#667d6d;font-size:12px}
 .footer-inner{padding:28px 0 36px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.footer-contact{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.footer-contact{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+.footer-person{display:flex;flex-direction:column;gap:2px}
+.footer-person strong{color:var(--ink);font-size:13px}
 .footer-contact a{color:#3d754d;text-decoration:none;font-weight:600;transition:color .15s}
 .footer-contact a:hover{color:#245f34;text-decoration:underline}
 
@@ -237,6 +258,7 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   nav{height:64px}
   .brand{font-size:16px}
   .brand-mark{width:30px;height:30px;border-radius:9px;font-size:16px}
+  .brand-logo{height:40px}
   .nav-links{display:none}
   .hamburger-menu{display:block}
 
@@ -266,7 +288,7 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   .stat b{font-size:18px}
 
   .footer-inner{flex-direction:column;align-items:flex-start;gap:12px;padding-bottom:28px}
-  .footer-contact{flex-direction:column;align-items:flex-start;gap:6px}
+  .footer-contact{flex-direction:column;align-items:flex-start;gap:14px}
 }
 
 /* === SMALL MOBILE ≤ 400px === */
@@ -294,24 +316,21 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
 @keyframes bubble-in{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes underline{from{transform:skewX(-12deg) scaleX(0)}to{transform:skewX(-12deg) scaleX(1)}}
 
-.hero .eyebrow,.hero h1,.hero .lead,.hero-actions{animation:rise 600ms var(--ease-out) both}
-.hero h1{animation-delay:80ms}
-.hero .lead{animation-delay:160ms}
-.hero-actions{animation-delay:240ms}
-h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650ms both}
-.demo-card{animation:card-in 700ms var(--ease-out) 200ms both}
-.demo-card .contact,.demo-card .message{transform-origin:bottom right;animation:bubble-in 400ms var(--ease-out) both}
-.campaign > :nth-child(2){animation-delay:600ms}
-.campaign > :nth-child(3){animation-delay:750ms}
-.campaign > :nth-child(4){animation-delay:1100ms}
-.campaign > :nth-child(5){animation-delay:1250ms}
+.intro .hero .eyebrow,.intro .hero h1,.intro .hero .lead,.intro .hero-actions{animation:rise 600ms var(--ease-out) both}
+.intro .hero h1{animation-delay:80ms}
+.intro .hero .lead{animation-delay:160ms}
+.intro .hero-actions{animation-delay:240ms}
+.intro h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650ms both}
+.intro .demo-card{animation:card-in 700ms var(--ease-out) 200ms both}
+.intro .demo-card .contact,.demo-card .message{transform-origin:bottom right;animation:bubble-in 400ms var(--ease-out) both}
+.intro .campaign > :nth-child(2){animation-delay:600ms}
+.intro .campaign > :nth-child(3){animation-delay:750ms}
+.intro .campaign > :nth-child(4){animation-delay:1100ms}
+.intro .campaign > :nth-child(5){animation-delay:1250ms}
 
-/* Aparición al hacer scroll (solo con JS, para que sin JS todo quede visible) */
-.js .reveal{opacity:0;transform:translateY(16px);transition:opacity 600ms var(--ease-out),transform 600ms var(--ease-out);transition-delay:var(--d,0ms)}
-.js .reveal.in{opacity:1;transform:none}
 
 @media(max-width:900px){
-  .demo-card{animation-name:card-in-flat}
+  .intro .demo-card{animation-name:card-in-flat}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -321,20 +340,20 @@ h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650
   h1 em::after{animation:none}
   .demo-card,.demo-card .contact,.demo-card .message{animation:none}
   .module-panel.active{animation:none}
-  .js .reveal{opacity:1;transform:none;transition:none}
   .button,.feature,.hamburger-btn span{transition:none}
 }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
 <!-- NAVIGATION -->
 <header class="nav-wrapper">
   <div class="wrap">
     <nav>
-      <a class="brand" href="#">
-         <img class="brand-logo" src="./logo-wacast.png.png" alt="WACAST">
-             WACAST
+      <a class="brand" href="#" aria-label="WACAST, ir al inicio">
+         <img class="brand-logo" src="./logo-wacast.png" alt="WACAST" width="180" height="90" fetchpriority="high">
       </a>
       <div class="nav-right">
         <div class="nav-links">
@@ -357,22 +376,22 @@ h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650
 </header>
 
 <!-- MAIN -->
-<main>
+<main id="contenido">
 
   <!-- HERO -->
   <div class="wrap">
     <section class="hero">
       <div>
-        <div class="eyebrow"><span class="pulse"></span> Mensajes personalizados por WhatsApp</div>
+        <div class="eyebrow"><span class="pulse" aria-hidden="true"></span> Mensajes personalizados por WhatsApp</div>
         <h1>Llegá a todos. <em>Hablales a cada uno.</em></h1>
         <p class="lead">Cobrá, invitá, encuestá o captá nuevos clientes con mensajes de WhatsApp que se adaptan a cada persona: nombre, fecha, producto, evento o cualquier dato de tus contactos.</p>
         <div class="hero-actions">
           <a class="button lime" href="https://wa-app-production-1e5d.up.railway.app/enviar">Empezar a enviar →</a>
-          <span class="microcopy"><span>●</span> Conectá tu WhatsApp Business en minutos</span>
+          <span class="microcopy"><span aria-hidden="true">●</span> Conectá tu WhatsApp Business en minutos</span>
         </div>
       </div>
       <div>
-        <div class="demo-card" aria-label="Vista previa de mensajes personalizados">
+        <div class="demo-card" role="img" aria-label="Ejemplo: el mismo mensaje de cobranza personalizado con el nombre y el monto de Lucía y de Juan">
           <div class="card-top">
             <div class="dots"><i></i><i></i><i></i></div>
             <div class="status"><b>●</b> envío en curso</div>
@@ -413,27 +432,27 @@ h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650
   <!-- BENEFICIOS -->
   <section id="beneficios">
     <div class="wrap">
-      <div class="section-intro reveal">
+      <div class="section-intro">
         <span class="kicker">Tu espacio de trabajo</span>
         <h2>Todo listo para enviar mejores mensajes.</h2>
         <p>Entrá a cada sección para ver cómo funciona: cargá tus contactos, creá plantillas y seguí los resultados de cada envío.</p>
       </div>
 
       <div class="features" role="tablist" aria-label="Secciones de la plataforma">
-        <button class="feature active reveal" style="--d:0ms" type="button" role="tab" aria-selected="true" aria-controls="panel-contactos" data-panel="contactos" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
-          <div class="icon">♙</div>
+        <button class="feature active" type="button" role="tab" aria-selected="true" aria-controls="panel-contactos" data-panel="contactos" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
+          <div class="icon" aria-hidden="true">♙</div>
           <h3>Contactos</h3>
           <p>Conectá tu WhatsApp Business o importá tu lista con los datos de cada persona.</p>
           <span class="open-label">Ver contactos →</span>
         </button>
-        <button class="feature reveal" type="button" role="tab" aria-selected="false" aria-controls="panel-plantillas" style="--d:80ms" data-panel="plantillas" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
-          <div class="icon">✦</div>
+        <button class="feature" type="button" role="tab" aria-selected="false" aria-controls="panel-plantillas" data-panel="plantillas" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
+          <div class="icon" aria-hidden="true">✦</div>
           <h3>Plantillas</h3>
           <p>Creá mensajes reutilizables para cobranzas, invitaciones, encuestas o captación.</p>
           <span class="open-label">Ver plantillas →</span>
         </button>
-        <button class="feature reveal" type="button" role="tab" aria-selected="false" aria-controls="panel-envios" style="--d:160ms" data-panel="envios" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
-          <div class="icon">✓</div>
+        <button class="feature" type="button" role="tab" aria-selected="false" aria-controls="panel-envios" data-panel="envios" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
+          <div class="icon" aria-hidden="true">✓</div>
           <h3>Envíos</h3>
           <p>Elegí destinatarios, mandá con un botón y revisá los resultados al instante.</p>
           <span class="open-label">Ver envíos →</span>
@@ -453,7 +472,7 @@ h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650
           </div>
           <div class="upload-panel">
             <div class="drop-zone">
-              <div class="upload-icon">↑</div>
+              <div class="upload-icon" aria-hidden="true">↑</div>
               <strong>Arrastrá y soltá tu archivo</strong>
               <small>Formatos: .csv, .xlsx, .xls, .vcf</small>
             </div>
@@ -546,23 +565,9 @@ h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650
 
 <script>
 (function(){
-  if(!('IntersectionObserver' in window))return;
-  document.documentElement.classList.add('js');
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting)return;
-      var el=e.target;
-      el.classList.add('in');
-      io.unobserve(el);
-      // al terminar, devolver al elemento sus transiciones propias (hover rápido)
-      setTimeout(function(){el.classList.remove('reveal','in')},1000);
-    });
-  },{rootMargin:'0px 0px -10% 0px'});
-  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
-
   // Contador del demo: sube hasta 42 mientras aparecen los mensajes
   var counter=document.querySelector('.campaign-title span');
-  if(!counter||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!counter||!document.documentElement.classList.contains('intro')||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   var from=30,to=42,dur=1100,start=null;
   counter.textContent=from+' / 120 enviados';
   setTimeout(function(){
