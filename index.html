@@ -18,6 +18,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   --sh-sm:0 4px 12px rgba(27,57,39,.06);
   --sh-md:0 18px 35px rgba(27,57,39,.10);
   --sh-lg:0 28px 60px rgba(27,57,39,.15);
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
 }
 body.luna{
   --ink:#eef7ef;--muted:#b3c6b8;--cream:#0f1d16;--surface:#182c21;
@@ -60,7 +61,7 @@ nav{height:72px;display:flex;align-items:center;justify-content:space-between;ga
 .hamburger-menu{display:none;position:relative}
 .hamburger-btn{display:flex;flex-direction:column;gap:5px;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;cursor:pointer;list-style:none;padding:0;background:transparent}
 .hamburger-btn::-webkit-details-marker{display:none}
-.hamburger-btn span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
+.hamburger-btn span{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:transform 200ms var(--ease-out),opacity 200ms var(--ease-out)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger-menu[open] .hamburger-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
@@ -71,10 +72,14 @@ nav{height:72px;display:flex;align-items:center;justify-content:space-between;ga
 .mob-cta:hover{background:#244837 !important}
 
 /* BUTTONS */
-.button{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:999px;padding:14px 22px;background:var(--ink);color:#fff;text-decoration:none;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;min-height:46px;transition:transform .2s,background .2s,box-shadow .2s;white-space:nowrap}
-.button:hover{transform:translateY(-2px);background:#244837;box-shadow:0 8px 20px rgba(22,62,45,.2)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:999px;padding:14px 22px;background:var(--ink);color:#fff;text-decoration:none;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;min-height:46px;transition:transform 160ms var(--ease-out),background-color 200ms ease,box-shadow 200ms ease;white-space:nowrap}
 .button.lime{background:var(--lime);color:var(--ink)}
-.button.lime:hover{background:var(--lime-dark)}
+.button:active{transform:scale(.97)}
+@media(hover:hover) and (pointer:fine){
+  .button:hover{transform:translateY(-2px);background:#244837;box-shadow:0 8px 20px rgba(22,62,45,.2)}
+  .button.lime:hover{background:var(--lime-dark)}
+  .button:active{transform:translateY(-2px) scale(.97)}
+}
 
 /* HERO */
 .hero{padding:clamp(52px,8vw,96px) 0 clamp(64px,10vw,108px);display:grid;grid-template-columns:1.04fr .96fr;align-items:center;gap:clamp(36px,5vw,72px)}
@@ -101,7 +106,7 @@ h1 em::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:7
 .campaign{padding:16px;background:#fbfcf8}
 .campaign-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px}
 .campaign-title strong{font-size:13px}
-.campaign-title span{padding:5px 9px;border-radius:6px;background:#eaf8d7;color:#427b36;font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
+.campaign-title span{font-variant-numeric:tabular-nums;padding:5px 9px;border-radius:6px;background:#eaf8d7;color:#427b36;font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0}
 .message{padding:13px 14px;border-radius:12px 12px 3px 12px;background:#ddf9b2;margin:10px 0 10px 32px;color:#1b3926;font-size:12px;line-height:1.55}
 .message b,.amount{color:#197a38;font-weight:800}
 .time{display:block;margin-top:4px;color:#60906a;text-align:right;font-size:9px}
@@ -129,8 +134,12 @@ section{padding:clamp(64px,10vw,112px) 0}
 #beneficios{background:linear-gradient(180deg,var(--cream) 0%,#f0f6ec 100%)}
 body.luna #beneficios{background:linear-gradient(180deg,#0f1d16 0%,#14271d 100%)}
 .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.feature{padding:24px;min-height:200px;border:1px solid var(--line);border-radius:18px;background:var(--surface);text-align:left;font:inherit;color:var(--ink);cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
-.feature:hover{transform:translateY(-3px);border-color:#8fbd79;box-shadow:var(--sh-md)}
+.feature{padding:24px;min-height:200px;border:1px solid var(--line);border-radius:18px;background:var(--surface);text-align:left;font:inherit;color:var(--ink);cursor:pointer;transition:transform 200ms var(--ease-out),border-color 200ms ease,box-shadow 200ms ease}
+.feature:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){
+  .feature:hover{transform:translateY(-3px);border-color:#8fbd79;box-shadow:var(--sh-md)}
+  .feature:active{transform:translateY(-3px) scale(.98)}
+}
 .feature.active{border-color:#8fbd79;box-shadow:inset 0 3px 0 var(--lime),var(--sh-md);background:#f6ffed}
 body.luna .feature.active{background:#1c3829}
 .icon{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#e7f6cf;color:#367638;font-size:20px}
@@ -140,7 +149,7 @@ body.luna .feature.active{background:#1c3829}
 
 /* MODULE PANELS */
 .module-panel{display:none;margin-top:20px;padding:clamp(22px,4vw,48px);border:1px solid #cfe1cc;border-radius:24px;background:var(--soft-mint);box-shadow:var(--sh-md)}
-.module-panel.active{display:block;animation:panel-in .28s ease both}
+.module-panel.active{display:block;animation:panel-in 240ms var(--ease-out) both}
 @keyframes panel-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .module-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(28px,5vw,54px);align-items:start}
 .format-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
@@ -273,6 +282,48 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   .nav-cta{padding:9px 12px;font-size:12px}
   .eyebrow{font-size:10px;padding:6px 10px}
 }
+
+/* === MOTION === */
+.pulse{position:relative}
+.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:#58b947;animation:ping 2.4s var(--ease-out) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(2.6);opacity:0}}
+
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes card-in{from{opacity:0;transform:rotate(2.5deg) translateY(16px) scale(.96)}to{opacity:1;transform:rotate(2.5deg)}}
+@keyframes card-in-flat{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes bubble-in{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes underline{from{transform:skewX(-12deg) scaleX(0)}to{transform:skewX(-12deg) scaleX(1)}}
+
+.hero .eyebrow,.hero h1,.hero .lead,.hero-actions{animation:rise 600ms var(--ease-out) both}
+.hero h1{animation-delay:80ms}
+.hero .lead{animation-delay:160ms}
+.hero-actions{animation-delay:240ms}
+h1 em::after{transform-origin:left;animation:underline 500ms var(--ease-out) 650ms both}
+.demo-card{animation:card-in 700ms var(--ease-out) 200ms both}
+.demo-card .contact,.demo-card .message{transform-origin:bottom right;animation:bubble-in 400ms var(--ease-out) both}
+.campaign > :nth-child(2){animation-delay:600ms}
+.campaign > :nth-child(3){animation-delay:750ms}
+.campaign > :nth-child(4){animation-delay:1100ms}
+.campaign > :nth-child(5){animation-delay:1250ms}
+
+/* Aparición al hacer scroll (solo con JS, para que sin JS todo quede visible) */
+.js .reveal{opacity:0;transform:translateY(16px);transition:opacity 600ms var(--ease-out),transform 600ms var(--ease-out);transition-delay:var(--d,0ms)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .demo-card{animation-name:card-in-flat}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pulse::after{animation:none;display:none}
+  .hero .eyebrow,.hero h1,.hero .lead,.hero-actions{animation:none}
+  h1 em::after{animation:none}
+  .demo-card,.demo-card .contact,.demo-card .message{animation:none}
+  .module-panel.active{animation:none}
+  .js .reveal{opacity:1;transform:none;transition:none}
+  .button,.feature,.hamburger-btn span{transition:none}
+}
 </style>
 </head>
 <body>
@@ -362,26 +413,26 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
   <!-- BENEFICIOS -->
   <section id="beneficios">
     <div class="wrap">
-      <div class="section-intro">
+      <div class="section-intro reveal">
         <span class="kicker">Tu espacio de trabajo</span>
         <h2>Todo listo para enviar mejores mensajes.</h2>
         <p>Entrá a cada sección para ver cómo funciona: cargá tus contactos, creá plantillas y seguí los resultados de cada envío.</p>
       </div>
 
       <div class="features" role="tablist" aria-label="Secciones de la plataforma">
-        <button class="feature active" type="button" role="tab" aria-selected="true" aria-controls="panel-contactos" data-panel="contactos" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
+        <button class="feature active reveal" style="--d:0ms" type="button" role="tab" aria-selected="true" aria-controls="panel-contactos" data-panel="contactos" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
           <div class="icon">♙</div>
           <h3>Contactos</h3>
           <p>Conectá tu WhatsApp Business o importá tu lista con los datos de cada persona.</p>
           <span class="open-label">Ver contactos →</span>
         </button>
-        <button class="feature" type="button" role="tab" aria-selected="false" aria-controls="panel-plantillas" data-panel="plantillas" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
+        <button class="feature reveal" type="button" role="tab" aria-selected="false" aria-controls="panel-plantillas" style="--d:80ms" data-panel="plantillas" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
           <div class="icon">✦</div>
           <h3>Plantillas</h3>
           <p>Creá mensajes reutilizables para cobranzas, invitaciones, encuestas o captación.</p>
           <span class="open-label">Ver plantillas →</span>
         </button>
-        <button class="feature" type="button" role="tab" aria-selected="false" aria-controls="panel-envios" data-panel="envios" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
+        <button class="feature reveal" type="button" role="tab" aria-selected="false" aria-controls="panel-envios" style="--d:160ms" data-panel="envios" onclick="(function(btn){var p=btn.dataset.panel;document.querySelectorAll('[data-panel]').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false')});document.querySelectorAll('.module-panel').forEach(function(m){m.classList.remove('active')});btn.classList.add('active');btn.setAttribute('aria-selected','true');var panel=document.getElementById('panel-'+p);panel.classList.add('active');if(window.innerWidth&lt;640)setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'})},60)})(this)">
           <div class="icon">✓</div>
           <h3>Envíos</h3>
           <p>Elegí destinatarios, mandá con un botón y revisá los resultados al instante.</p>
@@ -493,4 +544,35 @@ body.luna .nav-cta{background:#1c3829;color:#c8fa72;box-shadow:inset 0 0 0 1px #
 </footer>
 
 
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  document.documentElement.classList.add('js');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var el=e.target;
+      el.classList.add('in');
+      io.unobserve(el);
+      // al terminar, devolver al elemento sus transiciones propias (hover rápido)
+      setTimeout(function(){el.classList.remove('reveal','in')},1000);
+    });
+  },{rootMargin:'0px 0px -10% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+  // Contador del demo: sube hasta 42 mientras aparecen los mensajes
+  var counter=document.querySelector('.campaign-title span');
+  if(!counter||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var from=30,to=42,dur=1100,start=null;
+  counter.textContent=from+' / 120 enviados';
+  setTimeout(function(){
+    requestAnimationFrame(function step(t){
+      if(!start)start=t;
+      var p=Math.min((t-start)/dur,1),eased=1-Math.pow(1-p,4);
+      counter.textContent=Math.round(from+(to-from)*eased)+' / 120 enviados';
+      if(p<1)requestAnimationFrame(step);
+    });
+  },600);
+})();
+</script>
 </body></html>
